@@ -1,0 +1,13 @@
+{% if all_loc %}
+    <h3>Here are all locations in {{ game_temp.game_temp_name }}</h3>
+    <ul>
+        {% for loc in all_loc %}
+            {% if loc.gametemp.id == game_temp.id %}
+                <li>{{ loc.location_name }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <h3>No Temps</h3>
+{% endif %}

@@ -1,0 +1,11 @@
+{% if all_temps %}
+    <h3>Here are all templates for game</h3>
+    <ul>
+        {% for temp in all_temps %}
+        <li><a href="/mainpage/{{ temp.id }}/">{{ temp.game_temp_name }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <h3>No Temps</h3>
+{% endif %}
