@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<h3>Your name is {{ user.nickname }}</h3>
+{% if user.role == 1 %}
+    <h3>You are: Spy</h3>
+{% else %}
+    <h3>You are: Civil</h3>
+    <h3>The location is {{ chosen_loc }}</h3>
+{% endif %}
+<hr>
+<h4>Other players</h4>
+{% for us in users %}
+    {% if user.id != us.id %}
+        <h4>{{ us.nickname }}</h4>
+    {% endif %}
+{% endfor %}
+<hr>
+<h4>All locations</h4>
+{% for lo in locations %}
+    <h4>{{ lo.location_name }}</h4>
+{% endfor %}
+<form action="{% url 'mainpage:vote_wait' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" value="Go Vote" >
+</form>

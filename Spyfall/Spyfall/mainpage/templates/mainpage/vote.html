@@ -1,10 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
-
+    <h3>Vote</h3>
+    <form action="{% url "mainpage:vote" %}" method="post">
+        {% csrf_token %}
+        {% for user in users %}
+            <input type="radio" id="user{{ forloop.counter }}" name="user" value="{{ user.id }}">
+            <label for="user{{ forloop.counter }}">
+                {{ user.nickname }}
+            </label>
+        {% endfor %}
+        <input type="submit" value="Vote">
+    </form>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>Poczekalnia</h3>
+    <h3>Room id = {{ liczba }}</h3>
+    {% for i in gracze %}
+        <ul>
+            {% if i.room_id == liczba %}
+                <li>{{ i.nickname }}</li>
+            {% endif %}
+        </ul>
+    {% endfor %}
+    <form action="{% url 'mainpage:losowanie' %}" method = "post">
+        {% csrf_token %}
+        <input type="submit" value="Losowanie">
+    </form>
+</body>
+</html>

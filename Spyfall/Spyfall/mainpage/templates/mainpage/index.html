@@ -1,10 +1,24 @@
 {% if all_temps %}
-    <h3>Here are all templates for game</h3>
+    <h3>Welcome to SpyGame</h3>
     <ul>
         {% for temp in all_temps %}
-        <li><a href="/mainpage/{{ temp.id }}/">{{ temp.game_temp_name }}</a></li>
+        <li><a href="{% url 'mainpage:templist' temp.id %}">{{ temp.game_temp_name }}</a></li>
         {% endfor %}
     </ul>
+<h3>Welcome to SpyGame</h3>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'mainpage:create_game' 'create_game' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" value="New Game" >
+</form>
+<form action="{% url 'mainpage:join_game' 'join_game' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" value="Join Game">
+</form>
 
 {% else %}
     <h3>No Temps</h3>

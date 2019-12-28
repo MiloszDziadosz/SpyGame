@@ -1,0 +1,7 @@
+<h2>{{ wiad }}</h2>
+<hr>
+<h2>Start voting</h2>
+<form action="{% url 'mainpage:vote' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" value="Start voting" >
+</form>

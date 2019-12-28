@@ -24,6 +24,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -82,6 +83,49 @@
       <workItem from="1574299421615" duration="8686000" />
       <workItem from="1574331327417" duration="599000" />
       <workItem from="1574521376962" duration="2537000" />
+      <workItem from="1574636898014" duration="8765000" />
+      <workItem from="1574711456601" duration="19519000" />
+      <workItem from="1574853585557" duration="1551000" />
+      <workItem from="1574894858242" duration="17493000" />
+      <workItem from="1574947490080" duration="7557000" />
+      <workItem from="1576141887541" duration="307000" />
+      <workItem from="1576543164982" duration="1519000" />
+      <workItem from="1576544800061" duration="1843000" />
+      <workItem from="1576587288046" duration="599000" />
+      <workItem from="1576598961505" duration="1010000" />
+      <workItem from="1576610577199" duration="599000" />
+      <workItem from="1576709233770" duration="1708000" />
+      <workItem from="1576711965396" duration="712000" />
+      <workItem from="1576714861427" duration="2379000" />
+      <workItem from="1576718609426" duration="1796000" />
+      <workItem from="1576720887560" duration="1789000" />
+      <workItem from="1576722731024" duration="1786000" />
+      <workItem from="1576724582075" duration="1791000" />
+      <workItem from="1576726558982" duration="1794000" />
+      <workItem from="1576728377580" duration="1790000" />
+      <workItem from="1576730888402" duration="1825000" />
+      <workItem from="1576732739260" duration="1553000" />
+      <workItem from="1577024071657" duration="1768000" />
+      <workItem from="1577025863946" duration="1843000" />
+      <workItem from="1577027730459" duration="1453000" />
+      <workItem from="1577044059272" duration="1791000" />
+      <workItem from="1577045994752" duration="1199000" />
+      <workItem from="1577047831440" duration="1791000" />
+      <workItem from="1577049999988" duration="961000" />
+      <workItem from="1577055043990" duration="1806000" />
+      <workItem from="1577056874132" duration="1793000" />
+      <workItem from="1577058693871" duration="1808000" />
+      <workItem from="1577063244468" duration="1803000" />
+      <workItem from="1577065862955" duration="1217000" />
+      <workItem from="1577135207680" duration="1341000" />
+      <workItem from="1577139000244" duration="1701000" />
+      <workItem from="1577140831630" duration="1577000" />
+      <workItem from="1577142918349" duration="1801000" />
+      <workItem from="1577146144793" duration="1802000" />
+      <workItem from="1577148017091" duration="1544000" />
+      <workItem from="1577151529934" duration="1634000" />
+      <workItem from="1577350856270" duration="1042000" />
+      <workItem from="1577546942768" duration="1775000" />
     </task>
     <servers />
   </component>
