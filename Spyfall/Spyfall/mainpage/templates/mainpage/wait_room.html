@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
     <h3>Poczekalnia</h3>
     <h3>Room id = {{ liczba }}</h3>
     {% for i in gracze %}
@@ -18,5 +17,5 @@
         {% csrf_token %}
         <input type="submit" value="Losowanie">
     </form>
-</body>
-</html>
+
+{% endblock %}

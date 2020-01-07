@@ -1,13 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
     <form method="post">
         {% csrf_token %}
         <div>
@@ -15,7 +10,6 @@
             {{ tuser.nickname }}
         </div>
 
-        <button type="submit">Make</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Make</button>
     </form>
-</body>
-</html>
+{% endblock %}

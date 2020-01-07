@@ -21,7 +21,7 @@ class RoomForm(forms.Form):
             'room_name',
             'password',
             'nickname',
-            Submit('submit', 'Submit', css_class='btn-success')
+            Submit('submit', 'Submit', css_class='btn btn-lg btn-primary btn-block', style='margin-top: 20px')
         )
 
 
@@ -38,6 +38,6 @@ class TempuserForm(forms.Form):
         self.helper.layout = Layout(
             'room',
             'nickname',
-            Submit('submit', 'Submit', css_class='btn-success')
+            Submit('submit', 'Submit', css_class='btn-success', style='margin-top: 20px')
         )
 

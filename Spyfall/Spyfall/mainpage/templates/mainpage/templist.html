@@ -1,13 +1,24 @@
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
 {% if all_loc %}
     <h3>Here are all locations in {{ game_temp.game_temp_name }}</h3>
-    <ul>
         {% for loc in all_loc %}
             {% if loc.gametemp.id == game_temp.id %}
-                <li>{{ loc.location_name }}</li>
+                <label><input type="checkbox"> {{ loc.location_name }}</label>
             {% endif %}
         {% endfor %}
-    </ul>
 
 {% else %}
     <h3>No Temps</h3>
 {% endif %}
+
+<form action="{% url 'mainpage:index' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-lg btn-primary btn-block"  value="Back"
+    style="margin-top: 20px">
+</form>
+{% endblock %}

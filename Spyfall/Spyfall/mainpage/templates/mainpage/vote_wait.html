@@ -1,7 +1,15 @@
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
 <h2>{{ wiad }}</h2>
 <hr>
 <h2>Start voting</h2>
 <form action="{% url 'mainpage:vote' %}" method = "post">
     {% csrf_token %}
-    <input type="submit" value="Start voting" >
+    <input type="submit" class="btn btn-lg btn-primary btn-block" style="margin-top: 20px" value="Start voting" >
 </form>
+
+{% endblock %}

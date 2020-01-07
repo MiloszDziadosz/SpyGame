@@ -42,7 +42,7 @@ def templist(request, temp_id):
 
 def join_game(request, nic):
     if request.method == "POST":
-        form = TempuserForm(request.POST)
+        form = TempuserForm(request.POST or None)
         if form.is_valid():
             nick = form.cleaned_data['nickname']
             temp_room = form.cleaned_data['room']
@@ -51,6 +51,7 @@ def join_game(request, nic):
             request.session['user_id'] = temp_user.id
             request.session['room_id'] = temp_room
             return render(request, 'mainpage/wait_room.html', {'gracze': gr, 'liczba': temp_room})
+    form = TempuserForm()
     return render(request, 'mainpage/join_game.html', {'form': form})
 
 
@@ -64,7 +65,7 @@ def fast_join(request):
 
 def create_game(request, nic):
     if request.method == "POST":
-        form = RoomForm(request.POST)
+        form = RoomForm(request.POST or None)
         if form.is_valid():
             gt = form.cleaned_data['gt']
             rn = form.cleaned_data['room_name']
@@ -79,6 +80,7 @@ def create_game(request, nic):
             return render(request, 'mainpage/wait_room.html', {'gracze': gr, 'liczba': temp_id})
     form = RoomForm()
     return render(request, 'mainpage/creating_game.html', {'form': form})
+
 
 def game(request):
     userid = request.session['user_id']
@@ -104,6 +106,7 @@ def game(request):
         return render(request, 'mainpage/game.html', context)
     redirect(roles(request))
 
+
 def vote_wait(request):
     this_user = request.session['user_id']
     user = Tempuser.objects.get(pk=this_user)
@@ -112,58 +115,67 @@ def vote_wait(request):
     return render(request, 'mainpage/vote_wait.html',
                   {'wiad': "Poczekaj na resztę graczy i wciśnij Start voting"})
 
+
 def result_wait(request):
     this_user = request.session['user_id']
     user = Tempuser.objects.get(pk=this_user)
-    try:
-        selected_user = Tempuser.objects.get(pk=request.POST['user'])
-    except (KeyError, Tempuser.DoesNotExist):
-        return render(request, 'mainpage/error.html', {'wiad': "Something went wrong"})
+    #try:
+    #    selected_user = Tempuser.objects.get(pk=request.POST['user'])
+    #except (KeyError, Tempuser.DoesNotExist):
+    #    return render(request, 'mainpage/error.html', {'wiad': "Something went wrong"})
+    #else:
+    selected_user = Tempuser.objects.get(pk=request.POST['user'])
+    if user.voted == 0:
+        selected_user.voted_for= selected_user.voted_for + 1
+        selected_user.save()
+        user.voted = 1
+        user.save()
     else:
-        if user.voted == 0:
-            selected_user.voted_for= selected_user.voted_for + 1
-            selected_user.save()
-            user.voted = 1
-            user.save()
-        else:
-            return render(request, 'mainpage/error.html', {'wiad': "Dont cheat. U allready voted"})
+        return render(request, 'mainpage/error.html', {'wiad': "Dont cheat. U allready voted"})
     return redirect('mainpage:count_votes')
 
+
 def count_votes(request):
-    most_votes=0
+
+    most_votes = 0
+    highest_vote_count = 0
+    spy_id = 0
+    chosen_player = 0
     this_room = request.session['room_id']
     this_user = request.session['user_id']
     room = Room.objects.get(pk=this_room)
     locations = Location.objects.all().filter(gametemp=room.gametemp)
     all_users = Tempuser.objects.all().filter(room=this_room)
     for users in all_users:
-        if users.role==1:
-            spy_id=users.id
+        if users.voted == 0:
+            return render(request, 'mainpage/result_wait.html')
+    for users in all_users:
+        if users.role == 1:
+            spy_id = users.id
         if users.voted_for > most_votes:
             most_votes = users.voted_for
+    for users in all_users:
+        if users.voted_for == most_votes:
+            chosen_player = users.id
+            highest_vote_count = highest_vote_count + 1
     user = Tempuser.objects.get(pk=this_user)
     spy = Tempuser.objects.get(pk=spy_id)
-    most_votes = all_users.aggregate(Max('voted_for'))
-    most_voted = all_users.filter(voted_for=most_votes)
-    highest_vote_count = all_users.filter(voted_for = most_votes).count()
-    if highest_vote_count == 1 and most_voted.role == 1 :
+    most_voted = all_users.get(pk=chosen_player)
+    if highest_vote_count == 1 and most_voted.role == 1:
         #szpieg zdemaskowany
-        context = {
-            'who_won': 0,
-            'spy': spy,
-            'locations': locations,
-            'user': user
-        }
-        return render(request, 'mainpage/result.html', context)
+        who_won = 0
     else:
-        room = Room.objects.get(pk=this_room)
-        loc = room.current_location
-        context = {
-            'user': user,
-            'spy': spy,
-            'who_won': 1
-        }
-        return render(request, 'mainpage/result.html', context)
+        who_won = 1
+    room = Room.objects.get(pk=this_room)
+    loc = room.current_location
+    context = {
+        'who_won': who_won,
+        'spy': spy,
+        'this_location': loc,
+        'locations': locations,
+        'user': user
+    }
+    return render(request, 'mainpage/result.html', context)
 
 
 def vote(request):
@@ -171,13 +183,41 @@ def vote(request):
     all_ready = Tempuser.objects.all().filter(room=room_id)
     for users in all_ready:
         if users.ready == 0:
-            return render(reverse('mainpage:vote_wait'))
+            return redirect(reverse('mainpage:vote_wait'))
     room = Room.objects.get(pk=room_id)
     context = {
         'room': room,
         'users': all_ready
     }
     return render(request, 'mainpage/vote.html', context)
+
+
+def end_game(request):
+    user = Tempuser.objects.get(pk=request.session['user_id'])
+    user.delete()
+    all_temps = Gametemp.objects.all()
+    context = {
+        'all_temps': all_temps,
+    }
+    del request.session['user_id']
+    del request.session['room_id']
+    return render(request, 'mainpage/index.html', context)
+
+
+def play_again(request):
+    user = Tempuser.objects.get(pk=request.session['user_id'])
+    user.role = 0
+    user.ready = 0
+    user.voted = 0
+    user.voted_for = 0
+    user.save()
+    gr = Tempuser.objects.all()
+    temp_room = request.session['room_id']
+    room = Room.objects.get(pk=temp_room)
+    room.status = 0
+    room.save()
+    return render(request, 'mainpage/wait_room.html', {'gracze': gr, 'liczba': temp_room})
+
 
 def roles(request):
     print("Uruchomienie roles")
@@ -219,7 +259,7 @@ def roles(request):
             else:
                 loc_iterator = loc_iterator + 1
 
-        return redirect('index')
+    return redirect('mainpage:game')
 
 
 

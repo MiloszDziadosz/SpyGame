@@ -1,3 +1,9 @@
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
 <h3>Your name is {{ user.nickname }}</h3>
 {% if user.role == 1 %}
     <h3>You are: Spy</h3>
@@ -15,9 +21,11 @@
 <hr>
 <h4>All locations</h4>
 {% for lo in locations %}
-    <h4>{{ lo.location_name }}</h4>
+    <h4><label><input type="checkbox"> {{ lo.location_name }}</label></h4>
 {% endfor %}
 <form action="{% url 'mainpage:vote_wait' %}" method = "post">
     {% csrf_token %}
-    <input type="submit" value="Go Vote" >
+    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Go Vote" >
 </form>
+
+{% endblock %}

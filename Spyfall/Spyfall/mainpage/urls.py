@@ -30,6 +30,12 @@ urlpatterns = [
     url(r'^count_votes/$', views.count_votes, name='count_votes'),
 
     url(r'^losowanie/$', views.roles, name='losowanie'),
+
+    url(r'^result_wait/$', views.result_wait, name='result_wait'),
+
+    url(r'^play_again/$', views.play_again, name='play_again'),
+
+    url(r'^end_game/$', views.end_game, name='end_game'),
 ]
 
 

@@ -1,15 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
     <h3>Vote</h3>
-    <form action="{% url "mainpage:vote" %}" method="post">
+    <form action="{% url "mainpage:result_wait" %}" method="post">
         {% csrf_token %}
         {% for user in users %}
             <input type="radio" id="user{{ forloop.counter }}" name="user" value="{{ user.id }}">
@@ -17,7 +13,7 @@
                 {{ user.nickname }}
             </label>
         {% endfor %}
-        <input type="submit" value="Vote">
+        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Vote">
     </form>
-</body>
-</html>
+
+{% endblock %}

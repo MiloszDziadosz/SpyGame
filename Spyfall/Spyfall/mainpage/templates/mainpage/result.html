@@ -1,14 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'mainpage/settings.html' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
     {% if who_won == 1 %}
-        <h1>Spy wins</h1>
-        <h1>{{ spy.nickname }}</h1>
+        {% if user.role == 1 %}
+            <h1>Zwyciężyłeś</h1>
+            <hr>
+            <h1>Lokalizacja: {{ this_location }}</h1>
+        {% else %}
+            <h1>Przegrałeś</h1>
+            <hr>
+            <h1>Szpiegiem był: {{ spy.nickname }}</h1>
+        {% endif %}
     {% else %}
+        {% if user.role == 1 %}
+            <h1>Zostałeś zdemaskowany</h1>
+            <hr>
+            Masz 1 szansę na zgadnięcie
+            {% for lo in locations %}
+                <h4>{{ lo.location_name }}</h4>
+            {% endfor %}
+        {% else %}
+            <h1>Zdemaskowaliście szpiega: {{ spy.nickname }}</h1>
+            <hr>
+            <h1>Szpieg teraz zgaduje - Zweryfikuj jego wybór</h1>
+            {% for lo in locations %}
+                <h4>{{ lo.location_name }}</h4>
+            {% endfor %}
+        {% endif %}
     {% endif %}
-</body>
-</html>
+    <form action="{% url 'mainpage:end_game' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-lg btn-primary btn-block" style="margin-top: 20px" value="End Game" >
+    </form>
+    <form action="{% url 'mainpage:play_again' %}" method = "post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-lg btn-primary btn-block" style="margin-top: 20px" value="Play Again" >
+    </form>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

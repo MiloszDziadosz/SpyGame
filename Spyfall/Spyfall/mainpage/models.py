@@ -17,7 +17,7 @@ class Room(models.Model):
     current_location = models.CharField(max_length=20, null=True)
 
     def __str__(self):
-        return self.room_name
+        return self.room_name + ' ' + str(self.current_location)
 
 
 class Tempuser(models.Model):
